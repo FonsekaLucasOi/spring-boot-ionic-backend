@@ -1,4 +1,4 @@
-package com.cursomc.cursomc;
+package com.cursomc;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

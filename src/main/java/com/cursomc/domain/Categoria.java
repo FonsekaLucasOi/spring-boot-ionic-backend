@@ -1,4 +1,4 @@
-package com.cursomc.cursomc.domain;
+package com.cursomc.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
