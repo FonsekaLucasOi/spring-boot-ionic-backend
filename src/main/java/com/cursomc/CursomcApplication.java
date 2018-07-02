@@ -1,6 +1,7 @@
 package com.cursomc;
 
 import com.cursomc.domain.*;
+import com.cursomc.domain.enums.EstadoPagamento;
 import com.cursomc.domain.enums.TipoCliente;
 import com.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -30,6 +32,12 @@ public class CursomcApplication implements CommandLineRunner {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -78,5 +86,22 @@ public class CursomcApplication implements CommandLineRunner {
 
         clienteRepository.saveAll(Arrays.asList(maria));
         enderecoRepository.saveAll(Arrays.asList(primeiroEndereco, segundoEndereco));
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        Pedido primeiroPedido = new Pedido(null, simpleDateFormat.parse("30/09/2017 10:32"), maria, primeiroEndereco);
+        Pedido segundoPedido = new Pedido(null, simpleDateFormat.parse("10/10/2017 19:35"), maria, segundoEndereco);
+
+        Pagamento primeiroPagamento = new PagamentoComCartao(null, EstadoPagamento.QUITADO, primeiroPedido, 6);
+        primeiroPedido.setPagamento(primeiroPagamento);
+
+        Pagamento segundoPagamento = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, segundoPedido, simpleDateFormat.parse("20/10/2017 00:00"), null);
+        segundoPedido.setPagamento(segundoPagamento);
+
+        maria.getPedidos().addAll(Arrays.asList(primeiroPedido, segundoPedido));
+
+        pedidoRepository.saveAll(Arrays.asList(primeiroPedido, segundoPedido));
+        pagamentoRepository.saveAll(Arrays.asList(primeiroPagamento, segundoPagamento));
+
 	}
 }
