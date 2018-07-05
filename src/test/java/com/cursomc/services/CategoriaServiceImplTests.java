@@ -36,7 +36,7 @@ public class CategoriaServiceImplTests {
     public void shouldReturnCategoriaWhenBuscarIsCalled() {
         Categoria categoria = new Categoria(1, "Informática");
         when(categoriaRepository.findById(ID)).thenReturn(Optional.of(categoria));
-        Assert.assertEquals(Optional.of(categoria), categoriaService.buscar(ID));
+        Assert.assertEquals(Optional.of(categoria), categoriaService.find(ID));
     }
 
 }
