@@ -6,4 +6,5 @@ public interface CategoriaService {
 
     public Categoria buscar(Integer id);
 
+    public Categoria insert(Categoria categoria);
 }
